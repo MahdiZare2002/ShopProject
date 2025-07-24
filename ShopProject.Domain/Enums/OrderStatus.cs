@@ -10,6 +10,7 @@ namespace ShopProject.Domain.Enums
     {
         Pending = 0,
         Paid = 1,
-        Shipped = 2,
+        Confirmed = 2,
+        Canceled = 3,
     }
 }
