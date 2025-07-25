@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ShopProject.Domain.Entities;
 
 namespace ShopProject.Domain.Interfaces.Repositories
 {
-    internal interface ICustomerRepository
+    public interface ICustomerRepository : IBaseRepository<Customer, int>
     {
     }
 }
