@@ -2,7 +2,7 @@
 
 namespace ShopProject.Domain.Interfaces.Repositories
 {
-    public interface IProductRepository : IBaseRepository<Product, int>
+    public interface IProductRepository
     {
     }
 }

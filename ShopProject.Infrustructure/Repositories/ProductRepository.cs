@@ -4,10 +4,10 @@ using ShopProject.Infrustructure.Context;
 
 namespace ShopProject.Infrustructure.Repositories
 {
-    public class ProductRepository : BaseRepository<Product, int>, IProductRepository
+    public class ProductRepository : IProductRepository
     {
         private readonly ShopProjectDbContext _context;
-        public ProductRepository(ShopProjectDbContext context) : base(context)
+        public ProductRepository(ShopProjectDbContext context)
         {
             _context = context;
         }
