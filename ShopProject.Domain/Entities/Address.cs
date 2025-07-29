@@ -1,9 +1,4 @@
 ﻿using ShopProject.Domain.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ShopProject.Domain.Entities
 {
@@ -16,7 +11,7 @@ namespace ShopProject.Domain.Entities
         public int NoNumber { get; private set; }
         public bool IsActive { get; private set; }
         private Address() { }
-        public Address(int customerId , string state, string city , string completeAddress, int noNumber)
+        public Address(int customerId, string state, string city, string completeAddress, int noNumber)
         {
             CustomerId = customerId;
             State = state;
