@@ -34,11 +34,31 @@ namespace ShopProject.Domain.Entities
             ProductPriority = productpriority;
             StockQuantity = stockQuantity;
         }
-        private string GenerateProductSlug(string productName) => productName.ToLower().Replace(" ", "-").Replace("--", "-");
+        private string GenerateProductSlug(string productName) => productName.ToLower().Replace(" ", "-").Replace("--", "-").Trim();
         
-        public void DecreaseStockQuantity(int quantity)
+
+        public void IncreaseStock(int quantity)
         {
+            if (quantity <= 0)
+                throw new ArgumentException("Quantity must be positive.", nameof(quantity));
+
+            StockQuantity += quantity;
+        }
+
+        public void ReduceStock(int quantity)
+        {
+            if (quantity <= 0)
+                throw new ArgumentException("Quantity must be positive.", nameof(quantity));
+
+            if (!HasSufficientStock(quantity))
+                throw new InvalidOperationException("Insufficient stock.");
+
             StockQuantity -= quantity;
+        }
+        
+        public bool HasSufficientStock(int quantity)
+        {
+            return StockQuantity >= quantity;
         }
     }
 }
