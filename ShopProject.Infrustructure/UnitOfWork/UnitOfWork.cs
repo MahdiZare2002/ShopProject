@@ -10,6 +10,9 @@ namespace ShopProject.Infrustructure.UnitOfWork
     {
         private readonly ShopProjectDbContext _context;
         private readonly ConcurrentDictionary<Type, object> _repositories;
+
+        public IOrderRepository Orders { get; }
+
         public UnitOfWork(ShopProjectDbContext context)
         {
             _context = context;

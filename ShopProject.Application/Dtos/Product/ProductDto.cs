@@ -9,5 +9,6 @@ namespace ShopProject.Application.Dtos.Product
         public string ProductDescription { get; set; }
         public decimal ProductPrice { get; set; }
         public ProductPriority ProductPriority { get; set; }
+        public int StockQuantity { get; set; }
     }
 }

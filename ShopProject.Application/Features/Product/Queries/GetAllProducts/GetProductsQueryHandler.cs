@@ -1,25 +1,34 @@
 ﻿using MediatR;
 using ShopProject.Application.Dtos.Product;
-using ShopProject.Application.Interfaces.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ShopProject.Application.Interfaces.UnitOfWork;
 
 namespace ShopProject.Application.Features.Product.Queries.GetAllProducts
 {
     public class GetProductsQueryHandler : IRequestHandler<GetProductsQuery, List<ProductDto>>
     {
-        private readonly IProductRepository _productRepository;
-        public GetProductsQueryHandler(IProductRepository productRepository)
+        private readonly IUnitOfWork _unitOfWork;
+        public GetProductsQueryHandler(IUnitOfWork unitOfWork)
         {
-            _productRepository = productRepository;
+            _unitOfWork = unitOfWork;
         }
 
-        Task<List<ProductDto>> IRequestHandler<GetProductsQuery, List<ProductDto>>.Handle(GetProductsQuery request, CancellationToken cancellationToken)
+        public async Task<List<ProductDto>> Handle(GetProductsQuery request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var products = await _unitOfWork.Repository<Domain.Entities.Product>().GetAllAsync();
+            return products.Select(MapToDto).ToList();
+        }
+
+        private ProductDto MapToDto(Domain.Entities.Product product)
+        {
+            return new ProductDto
+            {
+                Id = product.Id,
+                ProductName = product.ProductName,
+                ProductDescription = product.ProductDescription,
+                ProductPrice = product.ProductPrice,
+                ProductPriority = product.ProductPriority,
+                StockQuantity = product.StockQuantity,
+            };
         }
     }
 }

@@ -152,7 +152,7 @@ namespace ShopProject.Infrustructure.Repositories
             _dbSet.RemoveRange(entities);
         }
 
-        public virtual async Task DeleteByIdAsync(object id)
+        public virtual async Task DeleteByIdAsync(int id)
         {
             var entity = await GetByIdAsync(id);
             if (entity != null)

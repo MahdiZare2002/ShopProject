@@ -20,6 +20,7 @@ namespace ShopProject.Infrustructure.Mapping
             builder.Property(p => p.ProductPrice).IsRequired();
             builder.Property(p => p.ProductDescription);
             builder.Property(p => p.ProductPriority).IsRequired();
+            builder.Property(p => p.ProductSlug).IsRequired();
             builder.Property(p => p.IsActive).IsRequired();
         }
     }

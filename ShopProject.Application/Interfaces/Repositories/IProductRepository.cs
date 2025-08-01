@@ -2,7 +2,8 @@
 
 namespace ShopProject.Application.Interfaces.Repositories
 {
-    public interface IProductRepository
+    public interface IProductRepository : IGenericRepository<Product>
     {
+        Task<Product> GetProductBySlugAsync(string slug);
     }
 }

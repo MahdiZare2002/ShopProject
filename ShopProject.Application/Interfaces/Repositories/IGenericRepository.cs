@@ -26,7 +26,7 @@ namespace ShopProject.Application.Interfaces.Repositories
         void UpdateRange(IEnumerable<T> entities);
         void Delete(T entity);
         void DeleteRange(IEnumerable<T> entities);
-        Task DeleteByIdAsync(object id);
+        Task DeleteByIdAsync(int id);
 
         // Raw queries (when needed)
         IQueryable<T> GetQueryable();
