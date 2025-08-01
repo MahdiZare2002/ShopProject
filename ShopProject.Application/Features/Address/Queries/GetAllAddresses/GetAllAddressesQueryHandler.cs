@@ -1,20 +1,20 @@
 ﻿using MediatR;
 using ShopProject.Application.Dtos.Address;
 using ShopProject.Application.Interfaces.Repositories;
+using ShopProject.Application.Interfaces.UnitOfWork;
 
 namespace ShopProject.Application.Features.Address.Queries.GetAllAddresses
 {
     public class GetAllAddressesQueryHandler : IRequestHandler<GetAllAddressesQuery, IEnumerable<AddressDto>>
     {
-        private readonly IAddressRepository _addressRepository;
-
-        public GetAllAddressesQueryHandler(IAddressRepository addressRepository)
+        private readonly IUnitOfWork _unitOfWork;
+        public GetAllAddressesQueryHandler(IUnitOfWork unitOfWork)
         {
-            _addressRepository = addressRepository;
+            _unitOfWork = unitOfWork;
         }
         public async Task<IEnumerable<AddressDto>> Handle(GetAllAddressesQuery request, CancellationToken cancellationToken)
         {
-            var addresses = await _addressRepository.GetAllAsync();
+            var addresses = await _unitOfWork.Repository<Domain.Entities.Address>().GetAllAsync();
 
             return addresses.Select(a => new AddressDto
             {

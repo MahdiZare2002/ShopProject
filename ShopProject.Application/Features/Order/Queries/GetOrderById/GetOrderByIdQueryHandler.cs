@@ -3,11 +3,6 @@ using ShopProject.Application.Dtos.Order;
 using ShopProject.Application.Dtos.OrderDetail;
 using ShopProject.Application.Interfaces.UnitOfWork;
 using ShopProject.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ShopProject.Application.Features.Order.Queries.GetOrderById
 {

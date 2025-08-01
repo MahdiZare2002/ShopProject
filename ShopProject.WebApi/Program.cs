@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using ShopProject.Application.Extensions;
 using ShopProject.Infrustructure.Context;
+using ShopProject.Infrustructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +12,10 @@ builder.Services.AddDbContext<ShopProjectDbContext>(options =>
 {
     options.UseSqlServer(connectionString);
 });
+
+// Add customer services (repositories, services, packages, UnitOfWork, CQRS)
+builder.Services.AddCustomServices();
+builder.Services.AddApplicationServices();
 
 // Add services to the container.
 

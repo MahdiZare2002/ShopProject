@@ -1,30 +1,37 @@
 ﻿using MediatR;
 using ShopProject.Application.Interfaces.Repositories;
+using ShopProject.Application.Interfaces.UnitOfWork;
 
 namespace ShopProject.Application.Features.Address.Commands.UpdateAddress
 {
     public class UpdateAddressCommandHandler : IRequestHandler<UpdateAddressCommand, bool>
     {
-        private readonly IAddressRepository _addressRepository;
-        public UpdateAddressCommandHandler(IAddressRepository addressRepository)
+        private readonly IUnitOfWork _unitOfWork;
+        public UpdateAddressCommandHandler(IUnitOfWork unitOfWork)
         {
-            _addressRepository = addressRepository;
+            _unitOfWork = unitOfWork;
         }
         public async Task<bool> Handle(UpdateAddressCommand request, CancellationToken cancellationToken)
         {
-            var address = await _addressRepository.GetByIdAsync(request.Id);
-            if (address == null) return false;
-            
+            try
+            {
+                await _unitOfWork.BeginTransactionAsync();
 
-            address.Edit(
-                request.State,
-                request.City,
-                request.CompleteAddress,
-                request.NoNumber
-            );
+                var address = await _unitOfWork.Repository<Domain.Entities.Address>().GetByIdAsync(request.Id);
+                if (address == null) throw new Exception("Address Not Found!!");
 
-            _addressRepository.Update(address);
-            return true;
+                address.Edit(request.State, request.City, request.CompleteAddress, request.NoNumber);
+
+                _unitOfWork.Repository<Domain.Entities.Address>().Update(address);
+                await _unitOfWork.SaveChangesAsync();
+                await _unitOfWork.CommitTransactionAsync();
+                return true;
+            }
+            catch
+            {
+                await _unitOfWork.RollbackTransactionAsync();
+                throw;
+            }
         }
     }
 }

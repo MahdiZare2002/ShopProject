@@ -1,20 +1,20 @@
 ﻿using MediatR;
 using ShopProject.Application.Dtos.Address;
 using ShopProject.Application.Interfaces.Repositories;
+using ShopProject.Application.Interfaces.UnitOfWork;
 
 namespace ShopProject.Application.Features.Address.Queries.GetAddressById
 {
     public class GetAddressByIdQueryHandler : IRequestHandler<GetAddressByIdQuery, AddressDto>
     {
-        private readonly IAddressRepository _addressRepository;
-
-        public GetAddressByIdQueryHandler(IAddressRepository addressRepository)
+        private readonly IUnitOfWork _unitOfWork;
+        public GetAddressByIdQueryHandler(IUnitOfWork unitOfWork)
         {
-            _addressRepository = addressRepository;
+            _unitOfWork = unitOfWork;
         }
         public async Task<AddressDto> Handle(GetAddressByIdQuery request, CancellationToken cancellationToken)
         {
-            var address = await _addressRepository.GetByIdAsync(request.addressId);
+            var address = await _unitOfWork.Repository<Domain.Entities.Address>().GetByIdAsync(request.addressId);
             if (address == null)
             {
                 throw new KeyNotFoundException($"Address with ID {request.addressId} not found.");

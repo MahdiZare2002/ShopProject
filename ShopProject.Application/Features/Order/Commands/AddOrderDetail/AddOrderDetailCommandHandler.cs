@@ -1,11 +1,6 @@
 ﻿using MediatR;
 using ShopProject.Application.Interfaces.UnitOfWork;
 using ShopProject.Domain.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ShopProject.Application.Features.Order.Commands.AddOrderDetail
 {
