@@ -21,8 +21,9 @@ namespace ShopProject.Infrustructure.Mapping
             builder.Property(o => o.OrderStatus).IsRequired();
             builder.Property(o => o.PaymentMethod).IsRequired();
             builder.Property(o => o.PaidDate).IsRequired();
-            builder.Property(o => o.TotalAmount).IsRequired();
-            
+            builder.Ignore(o => o.TotalAmount);
+
+
             builder.HasMany(o => o.orderDetails).WithOne().HasForeignKey(od => od.OrderId).OnDelete(DeleteBehavior.Cascade);
         }
     }

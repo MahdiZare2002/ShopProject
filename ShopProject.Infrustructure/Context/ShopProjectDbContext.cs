@@ -1,11 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ShopProject.Domain.Entities;
 using ShopProject.Infrustructure.Mapping;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ShopProject.Infrustructure.Context
 {
