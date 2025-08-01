@@ -1,15 +1,21 @@
-﻿using ShopProject.Domain.Entities;
-using ShopProject.Domain.Interfaces.Repositories;
+﻿using ShopProject.Application.Interfaces.Repositories;
+using ShopProject.Domain.Entities;
 using ShopProject.Infrustructure.Context;
 
 namespace ShopProject.Infrustructure.Repositories
 {
-    public class CustomerRepository : ICustomerRepository
+    public class CustomerRepository : GenericRepository<Customer>, ICustomerRepository
     {
-        private readonly ShopProjectDbContext _context;
-        public CustomerRepository(ShopProjectDbContext context)
+        public CustomerRepository(ShopProjectDbContext context) : base(context) { }
+
+        public async Task<IEnumerable<Customer>> GetActiveCustomersAsync()
         {
-            _context = context;
+            return await GetWhereAsync(c => c.IsActive);
+        }
+
+        public async Task<Customer> GetCustomersByEmailAsync(string email)
+        {
+            return await GetFirstOrDefaultAsync(c => c.Email == email);
         }
     }
 }

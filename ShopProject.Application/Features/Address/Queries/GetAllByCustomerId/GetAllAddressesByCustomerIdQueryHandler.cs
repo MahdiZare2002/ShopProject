@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using ShopProject.Application.Dtos.Address;
-using ShopProject.Domain.Interfaces.Repositories;
+using ShopProject.Application.Interfaces.Repositories;
 
 namespace ShopProject.Application.Features.Address.Queries.GetAllByCustomerId
 {

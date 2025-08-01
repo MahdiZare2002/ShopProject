@@ -1,15 +1,11 @@
-﻿using ShopProject.Domain.Entities;
-using ShopProject.Domain.Interfaces.Repositories;
+﻿using ShopProject.Application.Interfaces.Repositories;
+using ShopProject.Domain.Entities;
 using ShopProject.Infrustructure.Context;
 
 namespace ShopProject.Infrustructure.Repositories
 {
-    public class ProductRepository : IProductRepository
+    public class ProductRepository : GenericRepository<Product> , IProductRepository
     {
-        private readonly ShopProjectDbContext _context;
-        public ProductRepository(ShopProjectDbContext context)
-        {
-            _context = context;
-        }
+        public ProductRepository(ShopProjectDbContext context) : base(context) {}
     }
 }
