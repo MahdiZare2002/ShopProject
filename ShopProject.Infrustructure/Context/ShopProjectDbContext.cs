@@ -16,12 +16,7 @@ namespace ShopProject.Infrustructure.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new AddressMapping());
-            modelBuilder.ApplyConfiguration(new CustomerMapping());
-            modelBuilder.ApplyConfiguration(new ProductMapping());
-            modelBuilder.ApplyConfiguration(new OrderMapping());
-            modelBuilder.ApplyConfiguration(new OrderDetailMapping());
-
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AddressMapping).Assembly);
             base.OnModelCreating(modelBuilder);
         }
     }

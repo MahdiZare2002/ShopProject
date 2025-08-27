@@ -1,0 +1,52 @@
+version: "3.9"
+
+services:
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: shop-mssql
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "Your_password123"
+    ports:
+      - "1433:1433"
+    healthcheck:
+      test: [ "CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P Your_password123 -Q \"SELECT 1\" -C" ]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+    volumes:
+      - mssql_data:/var/opt/mssql
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    image: shopproject-web:dev
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__Default: "Server=mssql,1433;Database=ShopDb;User Id=sa;Password=Your_password123;TrustServerCertificate=True;Encrypt=False;"
+    depends_on:
+      mssql:
+        condition: service_healthy
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./:/src:delegated
+      - /src/ShopProject.WebApi/bin
+      - /src/ShopProject.WebApi/obj
+      - /src/ShopProject.Application/bin
+      - /src/ShopProject.Application/obj
+      - /src/ShopProject.Infrastructure/bin
+      - /src/ShopProject.Infrastructure/obj
+      - /src/ShopProject.Domain/bin
+      - /src/ShopProject.Domain/obj
+
+  nginx:
+    volumes:
+      - ./nginx.dev.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - "8088:80"
+
+volumes:
+  mssql_data:

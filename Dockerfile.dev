@@ -1,0 +1,18 @@
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS dev
+WORKDIR /src
+
+# Warm up restore cache
+COPY *.sln ./
+COPY ShopProject.Domain/*.csproj ./ShopProject.Domain/
+COPY ShopProject.Application/*.csproj ./ShopProject.Application/
+COPY ShopProject.Infrustructure/*.csproj ./ShopProject.Infrustructure/
+COPY ShopProject.WebApi/*.csproj ./ShopProject.WebApi/
+RUN dotnet restore
+
+# Copy everything (will be overlaid by volumes in compose)
+COPY . .
+
+ENV ASPNETCORE_URLS=http://0.0.0.0:5000
+EXPOSE 5000
+
+CMD ["dotnet", "watch", "--no-hot-reload-notification", "run", "--no-launch-profile", "--project", "ShopProject.WebApi/ShopProject.WebApi.csproj", "--urls", "http://0.0.0.0:5000"]
